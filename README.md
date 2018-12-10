@@ -5,7 +5,10 @@ This news app allows you to select from over 130 channels and bring the latest f
 Since this app is made in India thus when the app is opened for the first time, "The Times of India" comes as pre-subscribed but can easily be removed
 and newer news sources can be added from the subscription tab .
 
-
+<img src="https://user-images.githubusercontent.com/36532034/49751493-7cfc2b00-fcd3-11e8-8382-274260c27e5a.jpg" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/36532034/49751525-92715500-fcd3-11e8-83f3-34640f156d8d.jpg" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/36532034/49751535-9bfabd00-fcd3-11e8-872f-a2fc7e9e28a9.jpg" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/36532034/49751549-a3ba6180-fcd3-11e8-9464-80b1723ddbeb.jpg" width="40%" height="40%">
 
 This news app brings one of the most intuitive design.
 News is fetched from Newsapi.org.
