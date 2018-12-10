@@ -15,7 +15,6 @@ class Latest extends StatefulWidget {
   _LatestState createState() => _LatestState();
   Latest({this.change,@required this.darkThemeEnabled,this.future});
 }
-
 class _LatestState extends State<Latest> {
   Color bookmarkColor = Colors.grey.shade300;
   int bookmarkval = 0;

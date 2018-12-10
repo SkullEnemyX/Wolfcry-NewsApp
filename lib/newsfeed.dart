@@ -25,7 +25,7 @@ class _NewsfeedState extends State<Newsfeed> with SingleTickerProviderStateMixin
   TabController tabController ;
   bool value=false;
   bool darkThemeEnabled=false;
-  SubscriptionData subscriptionData = SubscriptionData();
+  final SubscriptionData subscriptionData = SubscriptionData();
 
   @override
     void initState() {
@@ -263,8 +263,17 @@ class AboutPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.network("https://png.pngtree.com/svg/20160104/boy_1234017.png",
-              height: 120.0,),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white
+                ),
+                child: Image.asset("asset/boy.png",
+                height: 120.0,),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
               Text("Vineet Kishore",style: TextStyle(
                 color: Colors.black,
                 fontSize: 20.0
@@ -304,14 +313,14 @@ class AboutPage extends StatelessWidget {
                 Divider(color: Colors.black,),
                 ListTile(
                   onTap: () => launch("https://www.quora.com/profile/Vineet-Kishore"),
-                  leading: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbliyJLH4brAYbBdm3mky8RlWqAAqaeYI7V3RvPNrRxgowYKZu", height: 34.0,
+                  leading: Image.asset("asset/quora.png", height: 34.0,
                   width: 20.0,),
                   title: Text("Quora"),
                 ),
                 Divider(color: Colors.black,),
                 ListTile(
                   onTap: ()async => await launch("https://github.com/SkullEnemyX"),
-                  leading: Image.network("https://camo.githubusercontent.com/7710b43d0476b6f6d4b4b2865e35c108f69991f3/68747470733a2f2f7777772e69636f6e66696e6465722e636f6d2f646174612f69636f6e732f6f637469636f6e732f313032342f6d61726b2d6769746875622d3235362e706e67",
+                  leading: Image.asset("asset/github.png",
                   height: 20.0,),
                   title: Text("Github"),
                 ),
@@ -319,13 +328,13 @@ class AboutPage extends StatelessWidget {
                 ListTile(
                   onTap: ()async => await _launchURL('vineetkishore01@gmail.com', 'Review about Wolfcry', 
                   'Replace with the content'),
-                  leading: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvT6RTtFvldyIC0z2KNZbGXzjsrAc75BCxuraGmoPsoKwZg0Ex",height: 20.0,),
+                  leading: Image.asset("asset/playstore.png",height: 20.0,),
                   title: Text("Google Play"),
                 ),
                 Divider(color: Colors.black,),
                 ListTile(
                   onTap: ()async => await launch("https://angel.co/vineet-kishore?al_content=view+your+profile&al_source=transaction_feed%2Fnetwork_sidebar"),
-                  leading: Image.network("https://angel.co/images/shared/peace_large.jpg",
+                  leading: Image.asset("asset/angel.jpg",
                   height: 30.0,),
                   title: Text("Angel List"),
                 ),
