@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newsfeed/newspage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Latest extends StatefulWidget {
 
@@ -81,7 +82,9 @@ class _LatestState extends State<Latest> {
                           itemBuilder: (BuildContext context,int index)
                           {
                             return GestureDetector(
-                            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=> NewsPage(
+                            onTap: ()=>widget.future[index]["content"]==null?
+                                launch( '${widget.future[index]["url"]}')
+                    :Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=> NewsPage(
                               date: widget.future[index]["publishedAt"].toString().split("T")[0],
                               desc: widget.future[index]["content"],
                               time: widget.future[index]["publishedAt"].toString().split("T")[1].split("Z")[0],

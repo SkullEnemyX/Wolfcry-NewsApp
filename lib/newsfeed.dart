@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:newsfeed/bookmark.dart';
 import 'package:newsfeed/color_loader.dart';
@@ -9,6 +8,7 @@ import 'package:newsfeed/newsdata.dart';
 import 'package:newsfeed/newspage.dart';
 import 'package:newsfeed/subscription.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -104,26 +104,10 @@ Future<List<dynamic>> getJsonData() async{
     }
     else if(value=='c')
     {
-        Navigator.push(context,
-        PageRouteBuilder(pageBuilder: (context, animation1, animation2) {
-        return AboutPage();
-        },
-        transitionsBuilder: (context, animation1, animation2, child) {
-        return SlideTransition(
-
-        position: Tween<Offset>(begin: const Offset(0.0, 1.0),
-        end: Offset.zero).animate(animation1),
-        
-        child: SlideTransition(
-          position: new Tween<Offset>(
-          begin: Offset.zero,
-          end: const Offset(0.0, 1.0),
-        ).animate(animation2),
-        child: child,
-        ),);
-        },
-        transitionDuration: Duration(milliseconds: 500),),
-        );
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>AboutPage()
+        ));
+       
       //confirmDialog1(context);
     }
   }
@@ -135,7 +119,7 @@ Future<List<dynamic>> getJsonData() async{
     return MaterialApp(
               theme: darkThemeEnabled?ThemeData.dark():ThemeData.light(),
               home: Scaffold(
-              drawer: Drawer(),
+              //drawer: Drawer(),
               // floatingActionButton: FloatingActionButton(
               //   onPressed: (){
               //     getNewsData();
@@ -148,7 +132,7 @@ Future<List<dynamic>> getJsonData() async{
                   IconButton(
                     icon: Icon(Icons.search),
                     iconSize: 30.0,
-                    color: Colors.tealAccent,
+                    color: Colors.tealAccent[700],
                     onPressed: (){
                       showSearch(context: context,delegate: SearchNews(
                         data: subscriptionData.newsValue
@@ -196,6 +180,7 @@ Future<List<dynamic>> getJsonData() async{
                     ];}
                 ),
                 bottom: TabBar(
+                  indicatorColor: Colors.tealAccent[700],
                   controller: tabController,
                   labelStyle: TextStyle(
                     fontSize: 15.0
@@ -229,6 +214,7 @@ Future<List<dynamic>> getJsonData() async{
                                 ColorLoader3(
                                   dotRadius: 6.0,
                                   radius: 28.0,
+                                  color: darkThemeEnabled?Colors.tealAccent:Colors.tealAccent[700]
                                 ),
                               Text(
                                 "Fetching The Latest News For You",
@@ -251,20 +237,102 @@ Future<List<dynamic>> getJsonData() async{
 }
 
 class AboutPage extends StatelessWidget {
+
+  _launchURL(String toMailId, String subject, String body) async {
+    var url = 'mailto:$toMailId?subject=$subject&body=$body';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         body: Container(
-        color: Colors.teal,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: FractionalOffset.bottomCenter,
+            end: FractionalOffset.topCenter,
+            colors: [Color(0xFF92FFC0),Color(0xFF32CCBC)]
+          )
+        ),
+        //color: Colors.teal,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Developer: Vineet Kishore",style: TextStyle(
+              Image.network("https://png.pngtree.com/svg/20160104/boy_1234017.png",
+              height: 120.0,),
+              Text("Vineet Kishore",style: TextStyle(
                 color: Colors.black,
                 fontSize: 20.0
-              ),)
+              ),),
+            SizedBox(
+              height: 20.0,
+            ),
+            Text("Flutter Developer and Designer",style: TextStyle(
+                color: Colors.black,
+                fontSize: 14.0
+              ),),
+            SizedBox(
+              height: 15.0,
+            ),
+            Text("Computer Science Engineer",style: TextStyle(
+                color: Colors.black,
+                fontSize: 14.0
+              ),),
+            SizedBox(
+              height: 30.0,
+            ),
+            ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: Container(
+              height: 355.0,
+              width: 300.0,
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                ListTile(
+                  onTap: ()async => await _launchURL('vineetkishore01@gmail.com', 'Review about Wolfcry', 
+                  'Replace with the content'),
+                  leading: Icon(Icons.mail,color: Colors.black,),
+                  title: Text("Email"),
+                ),
+                Divider(color: Colors.black,),
+                ListTile(
+                  onTap: () => launch("https://www.quora.com/profile/Vineet-Kishore"),
+                  leading: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbliyJLH4brAYbBdm3mky8RlWqAAqaeYI7V3RvPNrRxgowYKZu", height: 34.0,
+                  width: 20.0,),
+                  title: Text("Quora"),
+                ),
+                Divider(color: Colors.black,),
+                ListTile(
+                  onTap: ()async => await launch("https://github.com/SkullEnemyX"),
+                  leading: Image.network("https://camo.githubusercontent.com/7710b43d0476b6f6d4b4b2865e35c108f69991f3/68747470733a2f2f7777772e69636f6e66696e6465722e636f6d2f646174612f69636f6e732f6f637469636f6e732f313032342f6d61726b2d6769746875622d3235362e706e67",
+                  height: 20.0,),
+                  title: Text("Github"),
+                ),
+                Divider(color: Colors.black,),
+                ListTile(
+                  onTap: ()async => await _launchURL('vineetkishore01@gmail.com', 'Review about Wolfcry', 
+                  'Replace with the content'),
+                  leading: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvT6RTtFvldyIC0z2KNZbGXzjsrAc75BCxuraGmoPsoKwZg0Ex",height: 20.0,),
+                  title: Text("Google Play"),
+                ),
+                Divider(color: Colors.black,),
+                ListTile(
+                  onTap: ()async => await launch("https://angel.co/vineet-kishore?al_content=view+your+profile&al_source=transaction_feed%2Fnetwork_sidebar"),
+                  leading: Image.network("https://angel.co/images/shared/peace_large.jpg",
+                  height: 30.0,),
+                  title: Text("Angel List"),
+                ),
+                ],
+              ),
+            ),
+            ),
             ],
           ),
         ),
@@ -306,7 +374,11 @@ class SearchNews extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return buildSuggestions(context);
+    return data==null?Container(
+      child: Center(
+        child: Text("Loading News, sPlease Wait."),
+      ),
+    ):buildSuggestions(context);
   }
 
   @override

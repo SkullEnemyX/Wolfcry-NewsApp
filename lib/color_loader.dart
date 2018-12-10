@@ -4,8 +4,9 @@ import 'dart:math';
 class ColorLoader3 extends StatefulWidget {
   final double radius;
   final double dotRadius;
+  final Color color;
 
-  ColorLoader3({this.radius = 30.0, this.dotRadius = 3.0});
+  ColorLoader3({this.radius = 30.0, this.dotRadius = 3.0,this.color});
 
   @override
   _ColorLoader3State createState() => _ColorLoader3State();
@@ -98,7 +99,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0),
@@ -108,7 +109,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0 + 1 * pi / 4),
@@ -118,7 +119,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0 + 2 * pi / 4),
@@ -128,7 +129,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0 + 3 * pi / 4),
@@ -138,7 +139,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0 + 4 * pi / 4),
@@ -148,7 +149,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0 + 5 * pi / 4),
@@ -158,7 +159,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0 + 6 * pi / 4),
@@ -168,7 +169,7 @@ class _ColorLoader3State extends State<ColorLoader3>
                   new Transform.translate(
                     child: Dot(
                       radius: dotRadius,
-                      color: Colors.tealAccent,
+                      color: widget.color,
                     ),
                     offset: Offset(
                       radius * cos(0.0 + 7 * pi / 4),
