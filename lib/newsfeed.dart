@@ -135,7 +135,8 @@ Future<List<dynamic>> getJsonData() async{
                     color: Colors.tealAccent[700],
                     onPressed: (){
                       showSearch(context: context,delegate: SearchNews(
-                        data: subscriptionData.newsValue
+                        data: subscriptionData.newsValue,
+                        darkThemeEnabled: darkThemeEnabled
                       ));
                     },
                   )
@@ -219,7 +220,7 @@ Future<List<dynamic>> getJsonData() async{
                               Text(
                                 "Fetching The Latest News For You",
                                 style: TextStyle(
-                                  fontSize: 15.0
+                                  fontSize: 16.0,
                                 ),
                               )
                               ],
@@ -236,7 +237,18 @@ Future<List<dynamic>> getJsonData() async{
   }
 }
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
+
+  @override
+  AboutPageState createState() {
+    return new AboutPageState();
+  }
+}
+
+class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixin{
+
+   AnimationController controller;
+   Animation rotation;
 
   _launchURL(String toMailId, String subject, String body) async {
     var url = 'mailto:$toMailId?subject=$subject&body=$body';
@@ -248,101 +260,141 @@ class AboutPage extends StatelessWidget {
   }
 
   @override
+    void initState() {
+      super.initState();
+      controller = AnimationController(duration: Duration(milliseconds: 200),vsync: this);
+      rotation = Tween(begin: -1.0,end: 1.0).animate(
+        CurvedAnimation(parent: controller,curve: Interval(0.0, 0.25,curve: Curves.fastOutSlowIn))
+      );
+      //controller.forward();
+
+    }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: FractionalOffset.bottomCenter,
-            end: FractionalOffset.topCenter,
-            colors: [Color(0xFF92FFC0),Color(0xFF32CCBC)]
-          )
-        ),
-        //color: Colors.teal,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white
-                ),
-                child: Image.asset("asset/boy.png",
-                height: 120.0,),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text("Vineet Kishore",style: TextStyle(
-                color: Colors.black,
-                fontSize: 20.0
-              ),),
-            SizedBox(
-              height: 20.0,
-            ),
-            Text("Flutter Developer and Designer",style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0
-              ),),
-            SizedBox(
-              height: 15.0,
-            ),
-            Text("Computer Science Engineer",style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.0
-              ),),
-            SizedBox(
-              height: 30.0,
-            ),
-            ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Container(
-              height: 355.0,
-              width: 300.0,
-              color: Colors.white,
+    return MaterialApp(
+          home: Scaffold(
+          body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: FractionalOffset.bottomCenter,
+              end: FractionalOffset.topCenter,
+              colors: [Color(0xFF92FFC0),Color(0xFF32CCBC)]
+            )
+          ),
+          //color: Colors.teal,
+          child: ListView(
+              children:<Widget>[ Center(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                ListTile(
-                  onTap: ()async => await _launchURL('vineetkishore01@gmail.com', 'Review about Wolfcry', 
-                  'Replace with the content'),
-                  leading: Icon(Icons.mail,color: Colors.black,),
-                  title: Text("Email"),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  AnimatedBuilder(
+                    animation: controller,
+                    builder: (BuildContext context, Widget child){
+                      return GestureDetector(
+                        onTap: (){
+                        if(controller.value==controller.upperBound)
+                        {controller.reverse();
+                        print(controller.value);
+                        }
+                        else
+                        {
+                          controller.forward();
+                        }
+
+                       //controller.reverse();
+                       },
+                         child: RotationTransition(
+                          turns: rotation,
+                                                child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white
+                          ),
+                          child: Image.asset("assets/boy.png",
+                          height: 120.0,),
+                    ),
+                        ),
+                      );}
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text("Vineet Kishore",style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0
+                  ),),
+                SizedBox(
+                  height: 20.0,
                 ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  onTap: () => launch("https://www.quora.com/profile/Vineet-Kishore"),
-                  leading: Image.asset("asset/quora.png", height: 34.0,
-                  width: 20.0,),
-                  title: Text("Quora"),
+                Text("Flutter Developer and Designer",style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0
+                  ),),
+                SizedBox(
+                  height: 15.0,
                 ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  onTap: ()async => await launch("https://github.com/SkullEnemyX"),
-                  leading: Image.asset("asset/github.png",
-                  height: 20.0,),
-                  title: Text("Github"),
+                Text("Computer Science Engineer",style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0
+                  ),),
+                SizedBox(
+                  height: 30.0,
                 ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  onTap: ()async => await _launchURL('vineetkishore01@gmail.com', 'Review about Wolfcry', 
-                  'Replace with the content'),
-                  leading: Image.asset("asset/playstore.png",height: 20.0,),
-                  title: Text("Google Play"),
+                ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Container(
+                  height: 355.0,
+                  width: 300.0,
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                    ListTile(
+                      onTap: ()async => await _launchURL('vineetkishore01@gmail.com', 'Review about Wolfcry', 
+                      'Replace with the content'),
+                      leading: Icon(Icons.mail,color: Colors.black,),
+                      title: Text("Email"),
+                    ),
+                    Divider(color: Colors.black,),
+                    ListTile(
+                      onTap: () => launch("https://www.quora.com/profile/Vineet-Kishore"),
+                      leading: Image.asset("assets/quora.png", height: 34.0,
+                      width: 20.0,),
+                      title: Text("Quora"),
+                    ),
+                    Divider(color: Colors.black,),
+                    ListTile(
+                      onTap: ()async => await launch("https://github.com/SkullEnemyX"),
+                      leading: Image.asset("assets/github.png",
+                      height: 20.0,),
+                      title: Text("Github"),
+                    ),
+                    Divider(color: Colors.black,),
+                    ListTile(
+                      onTap: ()async => await _launchURL('vineetkishore01@gmail.com', 'Review about Wolfcry', 
+                      'Replace with the content'),
+                      leading: Image.asset("assets/playstore.png",height: 20.0,),
+                      title: Text("Google Play"),
+                    ),
+                    Divider(color: Colors.black,),
+                    ListTile(
+                      onTap: ()async => await launch("https://angel.co/vineet-kishore?al_content=view+your+profile&al_source=transaction_feed%2Fnetwork_sidebar"),
+                      leading: Image.asset("assets/angel.jpg",
+                      height: 30.0,),
+                      title: Text("Angel List"),
+                    ),
+                    ],
+                  ),
                 ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  onTap: ()async => await launch("https://angel.co/vineet-kishore?al_content=view+your+profile&al_source=transaction_feed%2Fnetwork_sidebar"),
-                  leading: Image.asset("asset/angel.jpg",
-                  height: 30.0,),
-                  title: Text("Angel List"),
                 ),
                 ],
               ),
-            ),
-            ),
-            ],
+            ),]
           ),
         ),
       ),
@@ -352,11 +404,12 @@ class AboutPage extends StatelessWidget {
 
 class SearchNews extends SearchDelegate {
   var data;
-  SearchNews({this.data});
+  bool darkThemeEnabled;
+  SearchNews({this.data,this.darkThemeEnabled});
 
   @override
   List<Widget> buildActions(BuildContext context) {
-    print(data);
+    //print(data);
     return [
       IconButton(
         icon: Icon(Icons.clear),
@@ -383,11 +436,7 @@ class SearchNews extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return data==null?Container(
-      child: Center(
-        child: Text("Loading News, sPlease Wait."),
-      ),
-    ):buildSuggestions(context);
+    return buildSuggestions(context);
   }
 
   @override
@@ -399,8 +448,8 @@ class SearchNews extends SearchDelegate {
     }
     final suggestionList = query.isEmpty?newsTitle:newsTitle.where((p)=>p.contains(query)).toList();
     //print(suggestionList);
-    return ListView.builder(
-      itemCount: suggestionList.length,
+    return data==null?Container(): ListView.builder(
+      itemCount: data==null?0:suggestionList.length,
       itemBuilder: (BuildContext context,int index){
         return Card(
           elevation: 1.0,
@@ -413,6 +462,8 @@ class SearchNews extends SearchDelegate {
                 time: data[index]["publishedAt"].toString().split("T")[1].split("Z")[0],
                 title: data[index]["title"],
                 url: data[index]["url"],
+                author: data[index]["source"]["name"],
+                darkThemeEnabled: darkThemeEnabled,
                 urlToImage: data[index]["urlToImage"],
               )
             )),

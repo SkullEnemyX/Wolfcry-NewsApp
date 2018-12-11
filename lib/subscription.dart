@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:newsfeed/color_loader.dart';
 import 'package:newsfeed/newsdata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,7 +90,22 @@ prefs.setStringList("NewsList", listOfNews);
             if(!snapshot.hasData)
             return Container(
               child: Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ColorLoader3(
+                                  dotRadius: 6.0,
+                                  radius: 28.0,
+                                  color: Colors.teal
+                                ),
+                              Text(
+                                "Fetching Subscription List",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              )
+                              ],
+                            )
               ),
             );
             else

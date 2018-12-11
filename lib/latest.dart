@@ -83,19 +83,21 @@ class _LatestState extends State<Latest> {
                             return GestureDetector(
                             onTap: ()=>widget.future[index]["content"]==null?
                                 launch( '${widget.future[index]["url"]}')
-                    :Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=> NewsPage(
+                              :Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=> NewsPage(
                               date: widget.future[index]["publishedAt"].toString().split("T")[0],
                               desc: widget.future[index]["content"],
                               time: widget.future[index]["publishedAt"].toString().split("T")[1].split("Z")[0],
                               title: widget.future[index]["title"],
                               url: widget.future[index]["url"],
+                              author: widget.future[index]['source']['name'],
+                              darkThemeEnabled: widget.darkThemeEnabled,
                               urlToImage: widget.future[index]["urlToImage"],
                             ))),
                              child: widget.future[index]["urlToImage"]!=null?
                               Card(
                                 elevation: 5.0,
                                 child: Container(
-                                  height: 130.0,
+                                  height: 145.0,
                                   child: Stack(
                                     alignment: Alignment.centerLeft,
                                     children: <Widget>[
@@ -103,14 +105,20 @@ class _LatestState extends State<Latest> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          Container(
-                                            child: widget.future[index]["urlToImage"]!=null?CachedNetworkImage(
-                                              imageUrl: widget.future[index]["urlToImage"],
-                                              height:  deviceOrientation==Orientation.portrait?115.0:150.0,
-                                              width:  deviceOrientation==Orientation.portrait?150.0:210,
-                                              fit: BoxFit.cover,
-                                            ):Container(),
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(3.5),
+                                            child: Container(
+                                              child: widget.future[index]["urlToImage"]!=null?CachedNetworkImage(
+                                                imageUrl: widget.future[index]["urlToImage"],
+                                                height:  deviceOrientation==Orientation.portrait?110.0:150.0,
+                                                width:  deviceOrientation==Orientation.portrait?150.0:210,
+                                                fit: BoxFit.cover,
+                                              ):Container(),
+                                            ),
                                           ),
+                                        SizedBox(
+                                          width: 7.5,
+                                        )
                                           
                                         ],
                                       ),
@@ -124,12 +132,15 @@ class _LatestState extends State<Latest> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Container(child: Text(widget.future[index]["title"],
-                                                style: TextStyle(fontSize: 15.0,color: textColor,
+                                                style: TextStyle(fontSize: 17.0,color: textColor,
+                                                fontFamily: "Sourcesans",
                                                 fontWeight: FontWeight.bold),),
-                                                width: deviceOrientation==Orientation.portrait? 220.0:500,),
+                                                width: deviceOrientation==Orientation.portrait? 210.0:500,),
                                                 Padding(padding: EdgeInsets.only(top: 20),),
                                                 Container(child: Text("Source : "+widget.future[index]["source"]["name"],
-                                                style: TextStyle(fontSize: 14.0,color: textColor,),),
+                                                style: TextStyle(fontSize: 15.0,
+                                                fontFamily: "Sourcesans",
+                                                color: textColor,),),
                                                 width: 230.0,),
                                               ],
                                             ),
