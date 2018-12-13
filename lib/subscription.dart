@@ -8,9 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Subscription extends StatefulWidget {
   SubscriptionData subscriptionData;
+  bool darkThemeEnabled;
   @override
   _SubscriptionState createState() => _SubscriptionState();
-  Subscription({this.subscriptionData});
+  Subscription({this.subscriptionData,this.darkThemeEnabled});
 }
 
 class _SubscriptionState extends State<Subscription> {
@@ -116,19 +117,11 @@ prefs.setStringList("NewsList", listOfNews);
                 return new Card(
             child: new SizedBox(
               height: 400.0,
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Transform(
-                    transform: Matrix4.translationValues(12, -3,0),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                      iconSize: 20.0,
-                      color: Colors.tealAccent,
-                      icon: Icon(subPress[i] == "0"?Icons.add:Icons.remove),
-                      onPressed: (){
-                        setState(() {
+              child: RaisedButton(
+                color: subPress[i] == "0"?
+                widget.darkThemeEnabled?Colors.grey.shade800: Colors.white70:Colors.grey.shade500,
+                onPressed: (){
+                  setState(() {
                           subPress[i] == "0"?subPress[i] = "1":subPress[i] = "0";
                           subPress[i] == "0"?removeNews(i):addNews(i);
                           setState(() {
@@ -143,27 +136,29 @@ prefs.setStringList("NewsList", listOfNews);
                           fetchpreferences();
                           //print(subPress);
                         });
-                        //print(subPress);
-                      },
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CachedNetworkImage(
+                          imageUrl: snapshot.data[i]["logo"],
+                          fit: BoxFit.cover,
+                          height: deviceOrientation == Orientation.portrait?80.0:90.0,
+                          width: deviceOrientation == Orientation.portrait?80.0:90.0,
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                      Text(snapshot.data[i]["title"],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12.0,),)
+                      ],
                     ),
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CachedNetworkImage(
-                        imageUrl: snapshot.data[i]["logo"],
-                        fit: BoxFit.cover,
-                        height: deviceOrientation == Orientation.portrait?80.0:90.0,
-                        width: deviceOrientation == Orientation.portrait?80.0:90.0,
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                    Text(snapshot.data[i]["title"],style: TextStyle(fontSize: 12.0),)
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           );

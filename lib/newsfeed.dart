@@ -206,7 +206,8 @@ Future<List<dynamic>> getJsonData() async{
                 return TabBarView(
                   controller: tabController,
                   children: <Widget>[
-                    Subscription(subscriptionData: subscriptionData,),
+                    Subscription(subscriptionData: subscriptionData,
+                    darkThemeEnabled: darkThemeEnabled,),
                     snapshot.hasData==false?Container(
                           child: Center(
                             child: Column(
@@ -262,13 +263,19 @@ class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixi
   @override
     void initState() {
       super.initState();
-      controller = AnimationController(duration: Duration(milliseconds: 200),vsync: this);
-      rotation = Tween(begin: -1.0,end: 1.0).animate(
+      controller = AnimationController(duration: Duration(seconds: 2),vsync: this);
+      rotation = Tween(begin: -1.0 ,end: 1.0).animate(
         CurvedAnimation(parent: controller,curve: Interval(0.0, 0.25,curve: Curves.fastOutSlowIn))
       );
       //controller.forward();
 
     }
+
+    @override
+      void dispose() {
+        controller.dispose(); 
+        super.dispose();
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -297,14 +304,7 @@ class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixi
                     builder: (BuildContext context, Widget child){
                       return GestureDetector(
                         onTap: (){
-                        if(controller.value==controller.upperBound)
-                        {controller.reverse();
-                        print(controller.value);
-                        }
-                        else
-                        {
-                          controller.forward();
-                        }
+                        controller.repeat();
 
                        //controller.reverse();
                        },
@@ -474,8 +474,7 @@ class SearchNews extends SearchDelegate {
                 children: [TextSpan(
                   text: suggestionList[index].substring(query.length,suggestionList[index].length),
                   style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 12.0
+                    color: Colors.black,
                   )
                 )]
               ),
