@@ -250,6 +250,7 @@ class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixi
 
    AnimationController controller;
    Animation rotation;
+   int i=0;
 
   _launchURL(String toMailId, String subject, String body) async {
     var url = 'mailto:$toMailId?subject=$subject&body=$body';
@@ -263,8 +264,8 @@ class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixi
   @override
     void initState() {
       super.initState();
-      controller = AnimationController(duration: Duration(seconds: 2),vsync: this);
-      rotation = Tween(begin: -1.0 ,end: 1.0).animate(
+      controller = AnimationController(duration: Duration(seconds: 3),vsync: this);
+      rotation = Tween(begin: 0.0 ,end: 1.0).animate(
         CurvedAnimation(parent: controller,curve: Interval(0.0, 0.25,curve: Curves.fastOutSlowIn))
       );
       //controller.forward();
@@ -304,7 +305,14 @@ class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixi
                     builder: (BuildContext context, Widget child){
                       return GestureDetector(
                         onTap: (){
-                        controller.repeat();
+                       if(i==0){
+                       controller.forward();
+                       i=1;
+                       }
+                       else{
+                         controller.reverse();
+                         i=0;
+                       }
 
                        //controller.reverse();
                        },
@@ -403,7 +411,7 @@ class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixi
 }
 
 class SearchNews extends SearchDelegate {
-  var data;
+  final data;
   bool darkThemeEnabled;
   SearchNews({this.data,this.darkThemeEnabled});
 
@@ -470,7 +478,7 @@ class SearchNews extends SearchDelegate {
             title: RichText(
               text: TextSpan(
                 text: suggestionList[index].substring(0,query.length),
-                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
                 children: [TextSpan(
                   text: suggestionList[index].substring(query.length,suggestionList[index].length),
                   style: TextStyle(
