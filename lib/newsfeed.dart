@@ -134,6 +134,11 @@ Future<List<dynamic>> getJsonData() async{
                     iconSize: 30.0,
                     color: Colors.tealAccent[700],
                     onPressed: (){
+                      subscriptionData.newsValue==null?
+                      showSearch(context: context,delegate: SearchNews(
+                        data: null,
+                        darkThemeEnabled: darkThemeEnabled
+                      )):
                       showSearch(context: context,delegate: SearchNews(
                         data: subscriptionData.newsValue,
                         darkThemeEnabled: darkThemeEnabled
@@ -450,14 +455,15 @@ class SearchNews extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     newsTitle = [];
+    if(data!=null){
     for(int i=0;i<data.length;i++)
     {
       newsTitle.add(data[i]["title"]);
     }
-    final suggestionList = query.isEmpty?newsTitle:newsTitle.where((p)=>p.contains(query)).toList();
+    var suggestionList = query.isEmpty?newsTitle:newsTitle.where((p)=>p.contains(query)).toList();
     //print(suggestionList);
-    return data==null?Container(): ListView.builder(
-      itemCount: data==null?0:suggestionList.length,
+    return ListView.builder(
+      itemCount: suggestionList.length,
       itemBuilder: (BuildContext context,int index){
         return Card(
           elevation: 1.0,
@@ -478,11 +484,11 @@ class SearchNews extends SearchDelegate {
             title: RichText(
               text: TextSpan(
                 text: suggestionList[index].substring(0,query.length),
-                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),
+                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey.shade800),
                 children: [TextSpan(
                   text: suggestionList[index].substring(query.length,suggestionList[index].length),
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.grey.shade800,
                   )
                 )]
               ),
@@ -492,5 +498,13 @@ class SearchNews extends SearchDelegate {
       }
     );
   }
+  else
+  {
+    return Container(
+      child: Center(
+        child: Text("Waiting For The News To Load"),
+      ),
+    );
+  }}
 
 }
