@@ -323,7 +323,7 @@ class AboutPageState extends State<AboutPage> with SingleTickerProviderStateMixi
                        },
                          child: RotationTransition(
                           turns: rotation,
-                                                child: Container(
+                          child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white

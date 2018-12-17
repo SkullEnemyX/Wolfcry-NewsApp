@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newsfeed/newspage.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Latest extends StatefulWidget {
 
@@ -96,15 +97,42 @@ class _LatestState extends State<Latest> {
                              child: widget.future[index]["urlToImage"]!=null?
                               Card(
                                 elevation: 5.0,
-                                child: Container(
-                                  height: 145.0,
-                                  child: Stack(
-                                    alignment: Alignment.centerLeft,
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: <Widget>[
+                                          SizedBox(
+                                            width: 15.0,
+                                          ),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(child: AutoSizeText(widget.future[index]["title"],
+                                              minFontSize: 16.0,
+                                              stepGranularity: 0.5,
+                                                style: TextStyle(color: textColor,
+                                                fontFamily: "Sourcesans",
+                                                fontWeight: FontWeight.bold),),
+                                                width: deviceOrientation==Orientation.portrait? 190.0:400,),
+                                              SizedBox(height: 20.0,),
+                                              Container(child: Text("Source : "+widget.future[index]["source"]["name"],
+                                              style: TextStyle(fontSize: 15.0,
+                                              fontFamily: "Sourcesans",
+                                              color: textColor,),),
+                                              width: 190.0,),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                          width: 15.0,
+                                        ), 
                                           ClipRRect(
                                             borderRadius: BorderRadius.circular(3.5),
                                             child: Container(
@@ -116,50 +144,16 @@ class _LatestState extends State<Latest> {
                                               ):Container(),
                                             ),
                                           ),
-                                        SizedBox(
-                                          width: 7.5,
-                                        )
-                                          
+                                         SizedBox(
+                                          width: 10.0,
+                                        ), 
                                         ],
                                       ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:25.0,left: 9.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(child: Text(widget.future[index]["title"],
-                                                style: TextStyle(fontSize: 17.0,color: textColor,
-                                                fontFamily: "Sourcesans",
-                                                fontWeight: FontWeight.bold),),
-                                                width: deviceOrientation==Orientation.portrait? 210.0:500,),
-                                                Padding(padding: EdgeInsets.only(top: 20),),
-                                                Container(child: Text("Source : "+widget.future[index]["source"]["name"],
-                                                style: TextStyle(fontSize: 15.0,
-                                                fontFamily: "Sourcesans",
-                                                color: textColor,),),
-                                                width: 230.0,),
-                                              ],
-                                            ),
-                                          ),
-                                      //   SizedBox(
-                                      //   height: 15.0,
-                                      // ),
-                                      //Remove comment to add bookmark icon.
-                                      // IconButton(
-                                      //   icon: Icon(Icons.bookmark,size: 15.0,
-                                      //   color: bookmarkColor,), onPressed: () {bookmarkval==0?bookmarkColor = Colors.tealAccent:bookmarkColor = Colors.grey;
-                                      //   setState(() {
-                                      //     bookmarkval==0?bookmarkval = 1:bookmarkval = 0;
-                                      //   });},
-                                      // )
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                  SizedBox(
+                                      height: 20.0,
+                                    ),
+                                  ],
                                 ),
                               ):Container(),
                             );
